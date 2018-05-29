@@ -2,7 +2,9 @@ package dubbo
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
+	"net"
 )
 
 type RpcClient struct {
@@ -26,4 +28,23 @@ func (rpcClient *RpcClient) Invoke(
 		return
 	}
 	invocation.Arguments = paramBytes
+	encoded := Encode(invocation)
+	// TODO: just test code
+	conn, err := net.Dial("tcp", "localhost:20880")
+	if err != nil {
+		log.Fatal(err)
+	}
+	writed, err := conn.Write(encoded)
+	if writed == len(encoded) {
+		log.Println("write data to request right")
+	}
+	var resp []byte
+	_, err = conn.Read(resp)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("response bytes: ", resp)
+
+	defer conn.Close()
+	fmt.Println(encoded)
 }
