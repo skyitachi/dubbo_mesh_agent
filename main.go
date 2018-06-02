@@ -1,13 +1,14 @@
 package main
 
 import (
-	"log"
-	"net/http"
-
-	"skyitachi/mesh_agent/controller"
+	"github.com/skyitachi/dubbo_mesh_agent/dubbo"
 )
 
 func main() {
-	http.HandleFunc("/", controller.HelloHandler)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	// http.HandleFunc("/", controller.HelloHandler)
+	// log.Fatal(http.ListenAndServe(":8080", nil))
+	rpcClient := &dubbo.RpcClient{}
+	rpcClient.Invoke(
+		"",
+	)
 }

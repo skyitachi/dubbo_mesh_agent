@@ -49,12 +49,28 @@ func Encode(invocation RpcInvocation) []byte {
 	requestData = append(requestData, pathByte...)
 
 	// NOTE: 没有该 key 就当 null 来处理
-	versionByte, err := json.Marshal(invocation.Attachments["version"])
-
+	v, ok := invocation.Attachments["version"]
+	if !ok {
+		v = "null"
+	}
+	versionByte, err := json.Marshal(v)
 	if err != nil {
 
 	}
 	requestData = append(requestData, versionByte...)
+	// write method name
+	methodNameByte, err := json.Marshal(invocation.Method)
+	if err != nil {
+
+	}
+	requestData = append(requestData, methodNameByte...)
+	// write parameterTypes
+
+	parameterTypesBytes, err := json.Marshal(invocation.ParameterTypes)
+	if err != nil {
+
+	}
+	requestData = append(requestData, parameterTypesBytes...)
 
 	// write arguments
 	requestData = append(requestData, invocation.Arguments...)
