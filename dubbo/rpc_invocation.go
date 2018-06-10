@@ -1,6 +1,6 @@
 package dubbo
 
-var counter int32
+var counter int64 = 1
 
 type RpcInvocation struct {
 	InterfaceName  string
@@ -10,7 +10,7 @@ type RpcInvocation struct {
 	Attachments    map[string]string
 	isTwoWay       bool
 	isEvent        bool
-	ID             int32
+	ID             int64
 }
 
 func NewRpcInvocation(method string, parameterTypes string) RpcInvocation {

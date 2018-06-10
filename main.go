@@ -7,8 +7,16 @@ import (
 func main() {
 	// http.HandleFunc("/", controller.HelloHandler)
 	// log.Fatal(http.ListenAndServe(":8080", nil))
+	done := make(chan int)
 	rpcClient := &dubbo.RpcClient{}
-	rpcClient.Invoke(
-		"",
-	)
+	go func() {
+		rpcClient.Invoke(
+			"com.alibaba.dubbo.performance.demo.provider.IHelloService",
+			"hash",
+			"Ljava/lang/String;",
+			"1",
+		)
+
+	}()
+	<-done
 }
